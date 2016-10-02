@@ -61,12 +61,13 @@ static struct timeval last_idle_time;
 struct Vector3 {
     float x, y, z;
 
-    Vector3() { x = y = z = 0; };
+    Vector3() { x = y = z = 0; }
     Vector3(float a, float b, float c) : x(a), y(b), z(c) {}
 };
 
 Vector3 cameraCenterPosition;
 Vector3 teapotPosition;
+Vector3 teapotRotation = Vector3(45, 0, 0);
 
 void DrawCubeFace(float fSize)
 {
@@ -116,11 +117,13 @@ void RenderObjects(void)
 	// Child object (teapot) ... relative transform, and render
 	glPushMatrix();
 	glTranslatef(
-      2 + teapotPosition.x,
-      0 + teapotPosition.y,
-      0 + teapotPosition.z
+        2 + teapotPosition.x,
+        0 + teapotPosition.y,
+        0 + teapotPosition.z
     );
-	glRotatef(45, 1, 0, 0);
+	glRotatef(teapotRotation.x, 1, 0, 0);
+	glRotatef(teapotRotation.y, 0, 1, 0);
+	glRotatef(teapotRotation.z, 0, 0, 1);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, colorBronzeDiff);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, colorBronzeSpec);
 	glMaterialf(GL_FRONT, GL_SHININESS, 50.0);
@@ -316,6 +319,10 @@ void SelectFromMenu(int idCommand)
 
 void Keyboard(unsigned char key, int x, int y)
 {
+
+    float movementSpeed = 0.1;
+    float rotateSpeed = 3;
+
 	switch (key)
 	{
 	case 27:             // ESCAPE key
@@ -323,47 +330,78 @@ void Keyboard(unsigned char key, int x, int y)
 		break;
 
     case 'w' : case 'W' :
-        cameraCenterPosition.y += 1;
+        cameraCenterPosition.y += movementSpeed;
         break;
 
     case 'a' : case 'A' :
-        cameraCenterPosition.x -= 1;
+        cameraCenterPosition.x -= movementSpeed;
         break;
 
     case 's' : case 'S' :
-        cameraCenterPosition.y -= 1;
+        cameraCenterPosition.y -= movementSpeed;
         break;
 
     case 'd' : case 'D' :
-        cameraCenterPosition.x += 1;
+        cameraCenterPosition.x += movementSpeed;
         break;
 
     case 'u' : case 'U' :
-        teapotPosition.y += 1;
+        teapotPosition.y += movementSpeed;
         break;
 
     case 'h' : case 'H' :
-        teapotPosition.x -= 1;
+        teapotPosition.x -= movementSpeed;
         break;
 
     case 'j' : case 'J' :
-        teapotPosition.y -= 1;
+        teapotPosition.y -= movementSpeed;
         break;
 
     case 'k' : case 'K' :
-        teapotPosition.x += 1;
+        teapotPosition.x += movementSpeed;
         break;
 
     case 'y' : case 'Y' :
-        teapotPosition.z -= 1;
+        teapotPosition.z -= movementSpeed;
         break;
 
     case 'i' : case 'I' :
-        teapotPosition.z += 1;
+        teapotPosition.z += movementSpeed;
         break;
 
+    case '3' :
+        teapotRotation.x -= rotateSpeed;
+        if(teapotRotation.x < 0) teapotRotation.x += 360;
+        break;
+
+    case '4' :
+        teapotRotation.x += rotateSpeed;
+        if(teapotRotation.x > 360) teapotRotation.x -= 360;
+        break;
+
+    case '5' :
+        teapotRotation.y -= rotateSpeed;
+        if(teapotRotation.y < 0) teapotRotation.y += 360;
+        break;
+
+    case '6' :
+        teapotRotation.y += rotateSpeed;
+        if(teapotRotation.y > 360) teapotRotation.y -= 360;
+        break;
+
+    case '7' :
+        teapotRotation.z -= rotateSpeed;
+        if(teapotRotation.z < 0) teapotRotation.z += 360;
+        break;
+
+    case '8' :
+        teapotRotation.z += rotateSpeed;
+        if(teapotRotation.z > 360) teapotRotation.z -= 360;
+        break;
+
+
 	case 'l':
-    SelectFromMenu(MENU_LIGHTING);
+        SelectFromMenu(MENU_LIGHTING);
 		break;
 
 	case 'p':
