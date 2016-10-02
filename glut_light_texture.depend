@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1384149888 source:c:\users\administrator\desktop\glut_light_texture\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<sys/time.h>
+	<GL/glut.h>
+
+1382940988 c:\users\administrator\desktop\glut_light_texture\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1382940988 c:\users\administrator\desktop\glut_light_texture\include\gl\gl.h
+
+1382940988 c:\users\administrator\desktop\glut_light_texture\include\gl\glu.h
+	<GL/gl.h>
+
+1475424651 source:e:\homework\realtime\assignment3\glut_example_view_light_texture_cb\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<windows.h>
+	<sys/time.h>
+	<GL/glut.h>
+
+1424072408 e:\homework\realtime\assignment3\glut_example_view_light_texture_cb\include\gl\glut.h
+	<windows.h>
+	<GL/gl.h>
+	<GL/glu.h>
+
+1424072408 e:\homework\realtime\assignment3\glut_example_view_light_texture_cb\include\gl\gl.h
+
+1424072408 e:\homework\realtime\assignment3\glut_example_view_light_texture_cb\include\gl\glu.h
+	<GL/gl.h>
+
