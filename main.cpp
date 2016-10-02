@@ -68,6 +68,8 @@ struct Vector3 {
 Vector3 cameraCenterPosition;
 Vector3 teapotPosition;
 Vector3 teapotRotation = Vector3(45, 0, 0);
+float perspectiveView = 65;
+bool isLookAtCube = true;
 
 void DrawCubeFace(float fSize)
 {
@@ -144,17 +146,32 @@ void display(void)
 	glLoadIdentity();
 
 	// Modify here
-	gluLookAt(
-        2,
-        1,
-        g_fViewDistance,
-        cameraCenterPosition.x,
-        cameraCenterPosition.y,
-        cameraCenterPosition.z,
-        0,
-        1,
-        0
-    );
+	if(isLookAtCube) {
+        gluLookAt(
+            2,
+            1,
+            g_fViewDistance,
+            cameraCenterPosition.x,
+            cameraCenterPosition.y,
+            cameraCenterPosition.z,
+            0,
+            1,
+            0
+        );
+	} else {
+	    gluLookAt(
+            teapotPosition.x + 2,
+            teapotPosition.y + 1,
+            teapotPosition.z + g_fViewDistance,
+            teapotPosition.x + 2,
+            teapotPosition.y,
+            teapotPosition.z,
+            0,
+            1,
+            0
+        );
+	}
+
 
 	// Set up the stationary light
 	glLightfv(GL_LIGHT0, GL_POSITION, g_lightPos);
@@ -174,7 +191,7 @@ void reshape(GLint width, GLint height)
 	glViewport(0, 0, g_Width, g_Height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(65.0, (float)g_Width / g_Height, g_nearPlane, g_farPlane);
+	gluPerspective(perspectiveView, (float)g_Width / g_Height, g_nearPlane, g_farPlane);
 	glMatrixMode(GL_MODELVIEW);
 }
 
@@ -322,6 +339,7 @@ void Keyboard(unsigned char key, int x, int y)
 
     float movementSpeed = 0.1;
     float rotateSpeed = 3;
+    float perspectiveSpeed = 2.5;
 
 	switch (key)
 	{
@@ -399,6 +417,19 @@ void Keyboard(unsigned char key, int x, int y)
         if(teapotRotation.z > 360) teapotRotation.z -= 360;
         break;
 
+    case '+' :
+        perspectiveView -= perspectiveSpeed;
+        reshape(g_Width, g_Height);
+        break;
+
+    case '-' :
+        perspectiveView += perspectiveSpeed;
+        reshape(g_Width, g_Height);
+        break;
+
+    case '1' :
+        isLookAtCube = !isLookAtCube;
+        break;
 
 	case 'l':
         SelectFromMenu(MENU_LIGHTING);
